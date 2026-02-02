@@ -1,0 +1,54 @@
+name: Build Regulations
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        electronic: [electronic.env, electronic_false.env]
+        minpaku: [minpaku.env, no_minpaku.env]
+        boryokudan: [none, boryokudan_rule.env]
+        boukakanri: [boukakanri.env, no_boukakanri.env]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Prepare dist
+        run: mkdir -p dist
+
+      - name: Merge env files
+        run: |
+          # 電磁的方法
+          cat profiles/${{ matrix.electronic }} > merged.env
+          # 民泊
+          cat profiles/${{ matrix.minpaku }} >> merged.env
+          # 暴力団排除（none のときはスキップ）
+          if [ "${{ matrix.boryokudan }}" != "none" ]; then
+            cat profiles/${{ matrix.boryokudan }} >> merged.env
+          fi
+          # 防火管理者
+          cat profiles/${{ matrix.boukakanri }} >> merged.env
+
+      - name: Build regulation
+        run: |
+          python build.py merged.env
+          OUT="規約_${{ matrix.electronic }}_${{ matrix.minpaku }}_${{ matrix.boryokudan }}_${{ matrix.boukakanri }}.md"
+          mv dist/output.md "dist/$OUT"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: regulations
+          path: dist/
