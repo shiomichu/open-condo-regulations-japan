@@ -11,10 +11,13 @@ jobs:
 
     strategy:
       matrix:
-        electronic: [electronic.env, electronic_false.env]
+        # electronic: [electronic.env, electronic_false.env]
+        electronic: [electronic.env]
         minpaku: [minpaku.env, no_minpaku.env]
-        boryokudan: [none, boryokudan_rule.env]
-        boukakanri: [boukakanri.env, no_boukakanri.env]
+        # boryokudan: [none, boryokudan_rule.env]
+        boryokudan: [boryokudan_rule.env]
+        # boukakanri: [boukakanri.env, no_boukakanri.env]
+        boukakanri: [boukakanri.env]
 
     steps:
       - name: Checkout
