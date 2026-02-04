@@ -5,70 +5,63 @@ on:
     branches:
       - main
   workflow_dispatch:
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        # electronic: [electronic.env, electronic_false.env]
-        electronic: [electronic.env]
-        minpaku: [minpaku.env, no_minpaku.env]
-        # boryokudan: [none, boryokudan_rule.env]
-        boryokudan: [boryokudan_rule.env]
-        # boukakanri: [boukakanri.env, no_boukakanri.env]
-        boukakanri: [boukakanri.env]
+        minpaku: [true, false]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
 
       - name: Install pandoc and wkhtmltopdf
         run: |
           sudo apt-get update
           sudo apt-get install -y pandoc wkhtmltopdf
 
-      - name: Prepare dist
-        run: mkdir -p dist
-
-      - name: Merge env files
+      - name: Create merged.env
         run: |
-          # 電磁的方法
-          cat profiles/${{ matrix.electronic }} > merged.env
-          # 民泊
-          cat profiles/${{ matrix.minpaku }} >> merged.env
-          # 暴力団排除（none のときはスキップ）
-          if [ "${{ matrix.boryokudan }}" != "none" ]; then
-            cat profiles/${{ matrix.boryokudan }} >> merged.env
+          echo "MINPAKU_PROHIBITED=${{ matrix.minpaku }}" > merged.env
+          echo "ELECTRONIC=true" >> merged.env
+          echo "BOURYOKUDAN=true" >> merged.env
+          echo "BOUKAKANRI=true" >> merged.env
+
+      - name: Run build.py (generate Markdown)
+        run: |
+          mkdir -p dist
+          python3 build.py merged.env
+
+      - name: Prepare cover page
+        run: |
+          cp cover.html cover_work.html
+          if [ "${{ matrix.minpaku }}" = "true" ]; then
+            sed -i "s/{{TITLE}}/民泊禁止版/g" cover_work.html
+          else
+            sed -i "s/{{TITLE}}/民泊許可版/g" cover_work.html
           fi
-          # 防火管理者
-          cat profiles/${{ matrix.boukakanri }} >> merged.env
-
-      - name: Build regulation
-        run: |
-          python build.py merged.env
-          OUT="規約_${{ matrix.electronic }}_${{ matrix.minpaku }}_${{ matrix.boryokudan }}_${{ matrix.boukakanri }}.md"
-          mv dist/output.md "dist/$OUT"
 
       - name: Convert to HTML (temporary)
         run: |
-          pandoc "dist/規約_${{ matrix.minpaku }}.md" -o "temp.html"
-          
+          pandoc dist/output.md -o temp.html
+
       - name: Convert to PDF with cover and TOC
         run: |
-          OUT_PDF="規約_${{ matrix.minpaku }}.pdf"
+          if [ "${{ matrix.minpaku }}" = "true" ]; then
+            OUT="規約_民泊禁止.pdf"
+          else
+            OUT="規約_民泊許可.pdf"
+          fi
+
           wkhtmltopdf \
             cover cover_work.html \
             toc \
             --user-style-sheet pdf.css \
             temp.html \
-            "dist/$OUT_PDF"
+            "dist/$OUT"
 
       - name: Clean temporary files
         run: rm temp.html
