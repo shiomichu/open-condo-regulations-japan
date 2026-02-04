@@ -55,11 +55,22 @@ jobs:
           OUT="規約_${{ matrix.electronic }}_${{ matrix.minpaku }}_${{ matrix.boryokudan }}_${{ matrix.boukakanri }}.md"
           mv dist/output.md "dist/$OUT"
 
-      - name: Convert to PDF
+      - name: Convert to HTML (temporary)
+        run: |
+          pandoc "dist/規約_${{ matrix.minpaku }}.md" -o "temp.html"
+          
+      - name: Convert to PDF with cover and TOC
         run: |
           OUT_PDF="規約_${{ matrix.minpaku }}.pdf"
-          wkhtmltopdf  --user-style-sheet pdf.css \
-            "dist/規約_${{ matrix.minpaku }}.html" "dist/$OUT_PDF"
+          wkhtmltopdf \
+            cover cover_work.html \
+            toc \
+            --user-style-sheet pdf.css \
+            temp.html \
+            "dist/$OUT_PDF"
+
+      - name: Clean temporary files
+        run: rm temp.html
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
