@@ -28,6 +28,11 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install pandoc and wkhtmltopdf
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc wkhtmltopdf
+
       - name: Prepare dist
         run: mkdir -p dist
 
@@ -49,6 +54,11 @@ jobs:
           python build.py merged.env
           OUT="規約_${{ matrix.electronic }}_${{ matrix.minpaku }}_${{ matrix.boryokudan }}_${{ matrix.boukakanri }}.md"
           mv dist/output.md "dist/$OUT"
+
+      - name: Convert to PDF
+        run: |
+          OUT_PDF="規約_${{ matrix.minpaku }}.pdf"
+          wkhtmltopdf "dist/規約_${{ matrix.minpaku }}.html" "dist/$OUT_PDF"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
