@@ -12,7 +12,7 @@ with open(env_file, "r", encoding="utf-8") as f:
             env[key] = value.lower() in ("1", "true", "yes", "on")
 
 # テンプレート Markdown を読み込む
-with open("template.md", "r", encoding="utf-8") as f:
+with open("01_標準管理規約/01_本文/標準管理規約.md", "r", encoding="utf-8") as f:
     lines = f.readlines()
 
 output = []
