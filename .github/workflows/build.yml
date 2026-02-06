@@ -63,13 +63,6 @@ jobs:
             dist/output.pdf
             
            
-          wkhtmltopdf \
-            cover cover_work.html \
-            toc \
-            --user-style-sheet pdf.css \
-            temp.html \
-            "dist/$OUT"
-
       - name: Clean temporary files
         run: rm temp.html
 
