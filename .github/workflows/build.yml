@@ -18,13 +18,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install patched wkhtmltopdf
+      - name: Install patched wkhtmltopdf (Ubuntu 22.04)
         run: |
             sudo apt-get update
             sudo apt-get install -y xfonts-75dpi xfonts-base
-            wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb
-            sudo dpkg -i wkhtmltox_0.12.6-1.focal_amd64.deb
-
+            wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.jammy_amd64.deb
+            sudo dpkg -i wkhtmltox_0.12.6-1.jammy_amd64.deb || sudo apt-get -f install -y
+    
       - name: Create merged.env
         run: |
           echo "MINPAKU_PROHIBITED=${{ matrix.minpaku }}" > merged.env
