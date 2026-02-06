@@ -3,7 +3,7 @@ body {
   font-size: 12pt;
   line-height: 1.8;
   color: #222;
-  margin: 25mm;
+  margin: 20mm 20mm;   /* 上下20mm 左右10mm */
 }
 
 h1, h2, h3, h4 {
@@ -11,7 +11,8 @@ h1, h2, h3, h4 {
   margin-top: 2em;
   margin-bottom: 0.5em;
   page-break-after: avoid;
-}
+  text-align: left;  
+  }
 
 h1 {
   font-size: 20pt;
@@ -21,12 +22,14 @@ h1 {
 
 h2 {
   font-size: 16pt;
-  border-left: 4px solid #444;
-  padding-left: 6px;
 }
 
 h3 {
   font-size: 14pt;
+}
+
+ul, ul li, ol, ol li {
+  text-align: left;
 }
 
 p {
@@ -57,10 +60,8 @@ th {
 
 @page {
   size: A4;
-  margin: 20mm;
-}
+  margin: 20mm 20mm;   /* 上下20mm 左右10mm */
 
-@page {
   @bottom-center {
     content: counter(page) " / " counter(pages);
     font-size: 10pt;
