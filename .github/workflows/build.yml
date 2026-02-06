@@ -18,12 +18,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install patched wkhtmltopdf (Ubuntu 22.04)
+      - name: Install patched wkhtmltopdf
         run: |
             sudo apt-get update
             sudo apt-get install -y xfonts-75dpi xfonts-base
-            wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.jammy_amd64.deb
-            sudo dpkg -i wkhtmltox_0.12.6-1.jammy_amd64.deb || sudo apt-get -f install -y
+            wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb
+            sudo dpkg -i wkhtmltox_0.12.6-1.focal_amd64.deb
     
       - name: Create merged.env
         run: |
@@ -46,18 +46,23 @@ jobs:
             sed -i "s/{{TITLE}}/民泊許可版/g" cover_work.html
           fi
 
-      - name: Convert to HTML (temporary)
+      - name: Convert to HTML (single file)
         run: |
-          pandoc dist/output.md -o temp.html
+          pandoc \
+            --metadata title="管理規約" \
+            --include-before-body=cover_work.html \
+            --toc \
+            dist/output.md \
+            -o temp.html
 
-      - name: Convert to PDF with cover and TOC
+      - name: Convert to PDF (single input)
         run: |
-          if [ "${{ matrix.minpaku }}" = "true" ]; then
-            OUT="規約_民泊禁止.pdf"
-          else
-            OUT="規約_民泊許可.pdf"
-          fi
-
+          wkhtmltopdf \
+            --user-style-sheet pdf.css \
+            temp.html \
+            dist/output.pdf
+            
+           
           wkhtmltopdf \
             cover cover_work.html \
             toc \
