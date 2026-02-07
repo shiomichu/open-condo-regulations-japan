@@ -1,6 +1,6 @@
 body {
   font-family: "Noto Sans JP", "Yu Gothic", "Hiragino Sans", sans-serif;
-  font-size: 12pt;
+  font-size: 14.4pt;   /* 12pt × 1.2 */
   line-height: 1.8;
   color: #222;
   margin-top: 0;
@@ -11,24 +11,24 @@ body {
 
 h1, h2, h3, h4 {
   font-weight: bold;
-  margin-top: 2em;
-  margin-bottom: 0.5em;
+  margin-top: 2.4em;     /* 2em × 1.2 */
+  margin-bottom: 0.6em;  /* 0.5em × 1.2 */
   page-break-after: avoid;
-  text-align: left;  
-  }
+  text-align: left;
+}
 
 h1 {
-  font-size: 20pt;
+  font-size: 24pt;       /* 20pt × 1.2 */
   border-bottom: 2px solid #444;
-  padding-bottom: 4px;
+  padding-bottom: 4.8px; /* 4px × 1.2 */
 }
 
 h2 {
-  font-size: 16pt;
+  font-size: 19.2pt;     /* 16pt × 1.2 */
 }
 
 h3 {
-  font-size: 14pt;
+  font-size: 16.8pt;     /* 14pt × 1.2 */
 }
 
 ul, ul li, ol, ol li {
@@ -37,23 +37,23 @@ ul, ul li, ol, ol li {
 
 p {
   text-align: justify;
-  margin: 12pt 0;   /* ← em を pt に変更 */
+  margin: 14.4pt 0;      /* 12pt × 1.2 */
 }
 
 ul, ol {
-  margin: 8pt 0 8pt 20pt;  /* ← ここも pt に変更 */
+  margin: 9.6pt 0 9.6pt 24pt;  /* 8pt × 1.2, 20pt × 1.2 */
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  margin: 1.5em 0;
-  font-size: 11pt;
+  margin: 1.8em 0;       /* 1.5em × 1.2 */
+  font-size: 13.2pt;     /* 11pt × 1.2 */
 }
 
 table, th, td {
   border: 1px solid #555;
-  padding: 6px 8px;
+  padding: 7.2px 9.6px;  /* 6×1.2, 8×1.2 */
 }
 
 th {
@@ -70,7 +70,7 @@ th {
 
   @bottom-center {
     content: counter(page) " / " counter(pages);
-    font-size: 10pt;
+    font-size: 12pt;     /* 10pt × 1.2 */
     color: #666;
   }
 }

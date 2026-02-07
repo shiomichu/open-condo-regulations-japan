@@ -74,7 +74,7 @@ jobs:
 
           wkhtmltopdf \
             --user-style-sheet "file://$(pwd)/pdf.css" \
-            --zoom=1.0 \
+            --footer-center "[page] / [topage]"
             temp.html \
             "dist/$OUT"
            
