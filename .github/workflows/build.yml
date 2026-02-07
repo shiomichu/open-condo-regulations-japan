@@ -59,6 +59,7 @@ jobs:
           pandoc \
             --metadata title="管理規約" \
             --include-before-body=cover_work.html \
+            --toc
             dist/output.md \
             -o temp.html
 
@@ -72,6 +73,8 @@ jobs:
 
           wkhtmltopdf \
             --user-style-sheet pdf.css \
+            --footer-center "[page] / [topage]" \
+            --footer-font-size 10 \
             temp.html \
             "dist/$OUT"
            

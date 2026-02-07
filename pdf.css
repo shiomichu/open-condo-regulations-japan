@@ -3,6 +3,10 @@ body {
   font-size: 12pt;
   line-height: 1.8;
   color: #222;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 20mm;
+  margin-right: 20mm;
 }
 
 h1, h2, h3, h4 {
