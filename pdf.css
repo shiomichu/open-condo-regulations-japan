@@ -3,7 +3,6 @@ body {
   font-size: 12pt;
   line-height: 1.8;
   color: #222;
-  margin: 20mm 20mm;   /* 上下20mm 左右10mm */
 }
 
 h1, h2, h3, h4 {
@@ -60,7 +59,10 @@ th {
 
 @page {
   size: A4;
-  margin: 20mm 20mm;   /* 上下20mm 左右10mm */
+  margin-top: 20mm;
+  margin-bottom: 20mm;
+  margin-left: 20mm;
+  margin-right: 20mm;
 
   @bottom-center {
     content: counter(page) " / " counter(pages);
