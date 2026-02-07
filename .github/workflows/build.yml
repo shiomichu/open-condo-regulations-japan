@@ -1,54 +1,22 @@
-name: Build Regulations
+name: Build PDF
 
 on:
   push:
-    branches:
-      - main
-  workflow_dispatch:
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        minpaku: [true, false]
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install libssl1.1 (for wkhtmltopdf)
-        run: |
-          wget http://old-releases.ubuntu.com/ubuntu/pool/main/o/openssl1.1/libssl1.1_1.1.1f-1ubuntu2_amd64.deb
-          sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2_amd64.deb || true
-
-      - name: Install wkhtmltopdf (static build)
-        run: |
-          wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.bionic_amd64.deb
-          sudo apt-get install -y ./wkhtmltox_0.12.6-1.bionic_amd64.deb
-      
-      - name: Install pandoc
+      - name: Install WeasyPrint
         run: |
           sudo apt-get update
-          sudo apt-get install -y pandoc
-          
-      - name: Install Japanese fonts
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y fonts-noto-cjk
-
-      - name: Create merged.env
-        run: |
-          echo "MINPAKU_PROHIBITED=${{ matrix.minpaku }}" > merged.env
-          echo "ELECTRONIC=true" >> merged.env
-          echo "BOURYOKUDAN=true" >> merged.env
-          echo "BOUKAKANRI=true" >> merged.env
-
-      - name: Run build.py (generate Markdown)
-        run: |
-          mkdir -p dist
-          python3 build.py merged.env
+          sudo apt-get install -y python3-pip python3-cffi libcairo2 libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0 libffi-dev shared-mime-info
+          pip3 install weasyprint
 
       - name: Prepare cover page
         run: |
@@ -69,26 +37,12 @@ jobs:
             dist/output.md \
             -o temp.html
 
-      - name: Convert to PDF (single input)
+      - name: Convert to PDF (WeasyPrint)
         run: |
-          cp pdf.css temp.css
           if [ "${{ matrix.minpaku }}" = "true" ]; then
             OUT="管理規約_民泊禁止版.pdf"
           else
             OUT="管理規約_民泊許可版.pdf"
           fi
 
-          wkhtmltopdf \
-            --user-style-sheet "file://$(pwd)/pdf.css" \
-            --footer-center "[page] / [topage]" \
-            temp.html \
-            "dist/$OUT"
-           
-      - name: Clean temporary files
-        run: rm temp.html
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: regulations-${{ matrix.minpaku }}
-          path: dist/
+          weasyprint temp.html "dist/$OUT"

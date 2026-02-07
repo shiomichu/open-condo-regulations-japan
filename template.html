@@ -1,16 +1,23 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<title>$title$</title>
-</head>
-<body>
+@page {
+  size: A4;
+  margin: 20mm;
 
-$for(include-before)$
-$include-before$
-$endfor$
+  @bottom-center {
+    content: counter(page) " / " counter(pages);
+    font-size: 10pt;
+    color: #666;
+  }
+}
 
-$body$
+.cover {
+  margin-top: 40mm;
+  text-align: center;
+  page-break-after: always;
+}
 
-</body>
-</html>
+body {
+  font-family: "Noto Sans JP", "Yu Gothic", "Hiragino Sans", sans-serif;
+  font-size: 14pt;
+  line-height: 1.8;
+  color: #222;
+}
