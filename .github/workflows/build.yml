@@ -61,7 +61,6 @@ jobs:
             --include-before-body=cover_work.html \
             --template="$(pwd)/template.html" \
             --standalone \
-            --css=pdf.css \
             dist/output.md \
             -o temp.html
 
