@@ -59,6 +59,7 @@ jobs:
           pandoc \
             --metadata title="管理規約" \
             --include-before-body=cover_work.html \
+            --template=template.html \
             --toc \
             --standalone \
             --css=pdf.css \
