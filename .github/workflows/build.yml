@@ -57,7 +57,7 @@ jobs:
       - name: Convert to HTML (single file)
         run: |
           pandoc \
-            --include-before-body=cover.html \
+            --include-before-body=cover_work.html \
             --metadata title="管理規約" \
             --template="$(pwd)/template.html" \
             --standalone \
