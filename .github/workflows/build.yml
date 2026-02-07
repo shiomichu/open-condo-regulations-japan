@@ -84,6 +84,8 @@ jobs:
           name: regulations-${{ matrix.minpaku }}
           path: dist/
 
+      - name: Show workspace tree
+        run: ls -R .
 
       - name: Show HTML content
         run: |
