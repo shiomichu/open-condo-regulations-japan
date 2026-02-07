@@ -58,7 +58,6 @@ jobs:
         run: |
           pandoc \
             --metadata title="管理規約" \
-            --include-before-body=cover_work.html \
             --template="$(pwd)/template.html" \
             --standalone \
             dist/output.md \
