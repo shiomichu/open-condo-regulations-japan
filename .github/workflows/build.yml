@@ -83,3 +83,15 @@ jobs:
         with:
           name: regulations-${{ matrix.minpaku }}
           path: dist/
+
+
+      - name: Show HTML content
+        run: |
+          echo "=== template.html ==="
+          cat template.html
+
+      - name: Show CSS content
+        run: |
+          echo "=== style.css ==="
+          cat style.css
+          
