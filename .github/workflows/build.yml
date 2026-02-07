@@ -18,10 +18,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install wkhtmltopdf
+      - name: Install wkhtmltopdf (static build)
         run: |
-            sudo apt-get update
-            sudo apt-get install -y xfonts-75dpi xfonts-base wkhtmltopdf
+          wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.bionic_amd64.deb
+          sudo apt install ./wkhtmltox_0.12.6-1.bionic_amd64.deb
 
       - name: Install pandoc
         run: |
