@@ -67,6 +67,7 @@ jobs:
 
       - name: Convert to PDF (single input)
         run: |
+          cp pdf.css temp.css
           if [ "${{ matrix.minpaku }}" = "true" ]; then
             OUT="管理規約_民泊禁止版.pdf"
           else
