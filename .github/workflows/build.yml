@@ -60,6 +60,8 @@ jobs:
             --metadata title="管理規約" \
             --include-before-body=cover_work.html \
             --toc
+            --standalone \
+            --css=pdf.css \
             dist/output.md \
             -o temp.html
 
