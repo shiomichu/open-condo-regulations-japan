@@ -16,8 +16,9 @@
 }
 
 body {
-  font-family: "Noto Sans JP", "Yu Gothic", "Hiragino Sans", sans-serif;
+  font-family: "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
   font-size: 14pt;
-  line-height: 1.8;
+  line-height: 1.0
+ ;
   color: #222;
 }
