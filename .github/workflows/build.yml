@@ -74,9 +74,7 @@ jobs:
           fi
 
           wkhtmltopdf \
-            --user-style-sheet pdf.css \
-            --footer-center "[page] / [topage]" \
-            --footer-font-size 10 \
+            --user-style-sheet "$(pwd)/pdf.css" \
             temp.html \
             "dist/$OUT"
            
