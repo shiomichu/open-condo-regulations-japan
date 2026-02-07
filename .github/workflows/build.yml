@@ -60,7 +60,6 @@ jobs:
             --metadata title="管理規約" \
             --include-before-body=cover_work.html \
             --template="$(pwd)/template.html" \
-            --toc \
             --standalone \
             --css=pdf.css \
             dist/output.md \
@@ -75,7 +74,7 @@ jobs:
           fi
 
           wkhtmltopdf \
-            --user-style-sheet "$(pwd)/pdf.css" \
+            --user-style-sheet "file://$(pwd)/pdf.css" \
             temp.html \
             "dist/$OUT"
            
