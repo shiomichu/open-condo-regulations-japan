@@ -11,9 +11,14 @@
 h1 {
   break-before: page;
 }
+ol, ul {
+  break-inside: avoid;
+}
+
 li {
   break-inside: avoid;
 }
+
 
 .cover {
   margin-top: 40mm;
