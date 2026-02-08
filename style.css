@@ -8,6 +8,9 @@
     color: #666;
   }
 }
+h1 {
+  break-before: page;
+}
 
 .cover {
   margin-top: 40mm;
@@ -18,7 +21,6 @@
 body {
   font-family: "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
   font-size: 14pt;
-  line-height: 1.0
- ;
+  line-height: 1.0 ;
   color: #222;
 }
