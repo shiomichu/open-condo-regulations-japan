@@ -13,14 +13,19 @@ h1 {
 }
 ol, ul {
   break-inside: avoid;
+  page-break-inside: avoid;
 }
 
 li {
   break-inside: avoid;
-}
-li {
   page-break-inside: avoid;
 }
+
+p {
+  orphans: 2;
+  widows: 2;
+}
+
 
 
 
