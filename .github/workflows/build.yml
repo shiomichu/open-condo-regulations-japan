@@ -93,9 +93,6 @@ jobs:
           fi
           weasyprint temp.html "dist/$OUT"
                      
-      - name: Clean temporary files
-        run: rm temp.html
-
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
