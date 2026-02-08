@@ -48,7 +48,7 @@ jobs:
           
       - name: Merge other files
         run: |
-           cat dist/output.md.md \
+           cat dist/output.md \
                01_標準管理規約/02_別表/01_対象物件の表示.md \
                01_標準管理規約/02_別表/02_共用部分の範囲.md \
                01_標準管理規約/02_別表/03_敷地及び共用部分等の共有持分割合.md \
