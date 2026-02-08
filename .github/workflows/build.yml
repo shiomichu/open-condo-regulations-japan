@@ -104,8 +104,8 @@ jobs:
 
       - name: Show HTML content
         run: |
-          echo "=== template.html ==="
-          cat template.html
+          echo "=== temp.html ==="
+          cat temp.html
 
       - name: Show CSS content
         run: |
