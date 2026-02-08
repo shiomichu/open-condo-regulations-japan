@@ -1,4 +1,4 @@
-name: Build Regulations
+name: Build Regulations	
 
 on:
   push:
@@ -45,6 +45,23 @@ jobs:
         run: |
           mkdir -p dist
           python3 build.py merged.env
+          
+      - name: Merge other files
+        run: |
+           cat dist/output.md.md \
+               01_標準管理規約/02_別表/01_対象物件の表示.md \
+               01_標準管理規約/02_別表/02_共用部分の範囲.md \
+               01_標準管理規約/02_別表/03_敷地及び共用部分等の共有持分割合.md \
+               01_標準管理規約/02_別表/04_バルコニー等の専用使用権.md \
+               01_標準管理規約/02_別表/05_議決権割合.md \
+               01_標準管理規約/02_別表/06_管理費及び修繕積立金.md
+               01_標準管理規約/03_細則/01_使用細則.md
+               01_標準管理規約/03_細則/02_専用使用部分細則.md
+               01_標準管理規約/03_細則/03_工事申請細則.md
+               01_標準管理規約/03_細則/04_管理組合運営細則.md
+               01_標準管理規約/03_細則/05_駐輪場細則.md
+               > dist/master.md
+
 
       - name: Prepare cover page
         run: |
@@ -62,8 +79,9 @@ jobs:
             --metadata title="管理規約" \
             --template="$(pwd)/template.html" \
             --standalone \
-            dist/output.md \
+            dist/master.md \
             -o temp.html
+
 
       - name: Convert to PDF (single input)
         run: |
