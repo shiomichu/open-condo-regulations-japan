@@ -18,6 +18,10 @@ ol, ul {
 li {
   break-inside: avoid;
 }
+li {
+  page-break-inside: avoid;
+}
+
 
 
 .cover {
