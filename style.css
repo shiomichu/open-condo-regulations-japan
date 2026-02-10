@@ -19,6 +19,10 @@ ol, ul {
 li {
   break-inside: avoid;
   page-break-inside: avoid;
+    /* ここを追加 */
+  word-break: break-all;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 p {
