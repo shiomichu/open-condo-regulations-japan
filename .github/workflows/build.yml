@@ -87,7 +87,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: 管理規約
+          name: kanrikiyaku
           path: dist/
 
       - name: Show workspace tree
