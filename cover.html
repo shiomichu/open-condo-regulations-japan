@@ -7,29 +7,26 @@
     position: relative;
   }
 
-  /* 背景に薄い七宝文様（グレー） */
+  /* 疑似的な和柄背景（CSS で確実に出る） */
   .cover::before {
     content: "";
     position: absolute;
     inset: 0;
     background-image:
-      radial-gradient(circle at 10% 20%, rgba(0,0,0,0.08) 0%, transparent 60%),
-      url("data:image/svg+xml;utf8,
-      <svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'>
-        <defs>
-          <pattern id='shippo' x='0' y='0' width='40' height='40' patternUnits='userSpaceOnUse'>
-            <circle cx='20' cy='20' r='18' stroke='rgba(0,0,0,0.15)' stroke-width='1' fill='none'/>
-          </pattern>
-        </defs>
-        <rect width='200' height='200' fill='url(%23shippo)'/>
-      </svg>");
+      repeating-linear-gradient(
+        45deg,
+        rgba(0,0,0,0.05) 0,
+        rgba(0,0,0,0.05) 2mm,
+        transparent 2mm,
+        transparent 4mm
+      );
     opacity: 0.25;
     z-index: -1;
   }
 
-  /* 装飾フレーム（黒グラデーション） */
-  .frame {
-    width: 85%;
+  /* 太い装飾ライン（SVG の単純 path） */
+  .ornament {
+    width: 90%;
     margin: 0 auto 15mm auto;
   }
 
@@ -38,10 +35,8 @@
     font-size: 64pt;
     letter-spacing: 6pt;
     margin: 12mm 0 6mm 0;
-    font-weight: 700;
-    background: linear-gradient(90deg, #000, #555, #000);
-    -webkit-background-clip: text;
-    color: transparent;
+    font-weight: 900;
+    color: #000;
   }
 
   /* マンション名 */
@@ -52,7 +47,7 @@
     color: #111;
   }
 
-  /* バージョン（改訂版） */
+  /* バージョン */
   .version {
     font-size: 20pt;
     color: #444;
@@ -63,36 +58,22 @@
 
 <div class="cover">
 
-  <!-- 上の装飾 -->
-  <img class="frame" src="data:image/svg+xml;utf8,
-  <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='40'>
-    <defs>
-      <linearGradient id='mono1' x1='0%' y1='0%' x2='100%' y2='0%'>
-        <stop offset='0%' stop-color='#000'/>
-        <stop offset='50%' stop-color='#555'/>
-        <stop offset='100%' stop-color='#000'/>
-      </linearGradient>
-    </defs>
-    <path d='M0 20 Q50 0 100 20 T200 20 T300 20 T400 20'
-          stroke='url(#mono1)' fill='transparent' stroke-width='4'/>
+  <!-- 上の太い装飾ライン -->
+  <img class="ornament" src="data:image/svg+xml;utf8,
+  <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='30'>
+    <path d='M0 15 Q50 0 100 15 T200 15 T300 15 T400 15'
+          stroke='black' fill='transparent' stroke-width='4'/>
   </svg>">
 
   <h1>管理規約</h1>
   <h2>{{MANSIONNAME}}</h2>
   <p class="version">{{VERSION}}</p>
 
-  <!-- 下の装飾 -->
-  <img class="frame" src="data:image/svg+xml;utf8,
-  <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='40'>
-    <defs>
-      <linearGradient id='mono2' x1='0%' y1='0%' x2='100%' y2='0%'>
-        <stop offset='0%' stop-color='#000'/>
-        <stop offset='50%' stop-color='#555'/>
-        <stop offset='100%' stop-color='#000'/>
-      </linearGradient>
-    </defs>
-    <path d='M0 20 Q50 40 100 20 T200 20 T300 20 T400 20'
-          stroke='url(#mono2)' fill='transparent' stroke-width='4'/>
+  <!-- 下の太い装飾ライン -->
+  <img class="ornament" src="data:image/svg+xml;utf8,
+  <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='30'>
+    <path d='M0 15 Q50 30 100 15 T200 15 T300 15 T400 15'
+          stroke='black' fill='transparent' stroke-width='4'/>
   </svg>">
 
 </div>
