@@ -8,22 +8,6 @@
     color: #666;
   }
 }
-h1 {
-  break-before: page;
-}
-ol, ul {
-  break-inside: avoid;
-  page-break-inside: avoid;
-}
-
-li {
-  break-inside: avoid;
-  page-break-inside: avoid;
-    /* ここを追加 */
-  word-break: break-all;
-  overflow-wrap: break-word;
-  white-space: normal;
-}
 
 p {
   orphans: 2;
