@@ -81,12 +81,6 @@ jobs:
             --standalone \
             dist/master.md \
             -o temp.html
-     
-      - name: Save HTML
-        run: |
-          cp temp.html dist/
-
-
 
       - name: Convert to PDF (single input)
         run: |
@@ -98,6 +92,9 @@ jobs:
           fi
           weasyprint temp.html "dist/$OUT"
                      
+      - name: Clean temporary files
+        run: rm temp.html
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -107,13 +104,4 @@ jobs:
       - name: Show workspace tree
         run: ls -R .
 
-      - name: Show HTML content
-        run: |
-          echo "=== temp.html ==="
-          cat temp.html
-
-      - name: Show CSS content
-        run: |
-          echo "=== style.css ==="
-          cat style.css
           
