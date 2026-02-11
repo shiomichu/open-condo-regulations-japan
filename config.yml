@@ -1,0 +1,25 @@
+# マンション名（表紙と本文で共通）
+MANSION_NAME=○○マンション
+
+# 改訂版の情報
+VERSION=2026年6月改訂版_草案
+
+# 本文の条件分岐フラグ
+
+# 民泊を許可する場合true、禁止する場合false
+MINPAKU_ALLOWED=false
+
+# 民泊を禁止する場合true、許可する場合false
+MINPAKU_PROHIBITED=true
+
+# 電磁的方法による承認を認める場合true、禁止する場合false
+ELECTRONIC=true
+
+# 電磁的方法が使えない（書面のみ）場合true、使える場合false
+ELECTRONIC_FALSE=false
+
+# 暴力団排除条項を入れる場合true、入れない場合false
+BORYOKUDAN_RULE=true
+
+# 防火管理者が必要な規模の場合true、いらない場合false
+FIRE_MANAGER=true

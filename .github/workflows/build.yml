@@ -34,17 +34,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y fonts-noto-cjk
 
-      - name: Create merged.env
-        run: |
-          echo "MINPAKU_PROHIBITED=${{ matrix.minpaku }}" > merged.env
-          echo "ELECTRONIC=true" >> merged.env
-          echo "BOURYOKUDAN=true" >> merged.env
-          echo "BOUKAKANRI=true" >> merged.env
-
+      - name: Generate date
+        run: echo "CREATED_AT=$(date +%Y-%m-%d)" >> config.env
       - name: Run build.py (generate Markdown)
         run: |
           mkdir -p dist
-          python3 build.py merged.env
+          python3 build.py config.env
           
       - name: Merge other files
         run: |
@@ -66,17 +61,19 @@ jobs:
       - name: Prepare cover page
         run: |
           cp cover.html cover_work.html
-          if [ "${{ matrix.minpaku }}" = "true" ]; then
-            sed -i "s/{{TITLE}}/民泊禁止版/g" cover_work.html
-          else
-            sed -i "s/{{TITLE}}/民泊許可版/g" cover_work.html
-          fi
-
+          source config.env
+          sed -i "s/{{MANSIONNAME}}/${MANSION_NAME}/g" cover_work.html
+          sed -i "s/{{VERSION}}/${VERSION}/g" cover_work.html
+    
+    
       - name: Convert to HTML (single file)
         run: |
+          source config.env
           pandoc \
             --include-before-body=cover_work.html \
-            --metadata title="管理規約" \
+            --metadata title="${MANSION_NAME} 管理規約 ${VERSION}" \
+            --metadata author="${MANSION_NAME} 管理組合" \
+            --metadata date="${CREATED_AT}" \
             --template="$(pwd)/template.html" \
             --standalone \
             dist/master.md \

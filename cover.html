@@ -1,21 +1,40 @@
 <style>
+  .ornament {
+    width: 80%;
+    margin: 0 auto 20mm auto;
+  }
   .cover {
-    margin: 0;
-    padding: 0;
+    margin-top: 30mm;
     text-align: center;
-    margin-top: 40mm;
-    page-break-after: always; 
+    page-break-after: always;
   }
   .cover h1 {
     font-size: 52pt;
-    margin-bottom: 20mm;
+    margin: 20mm 0;
   }
   .cover h2 {
     font-size: 30pt;
+    margin-bottom: 5mm;
+  }
+  .version {
+    font-size: 14pt;
+    color: #555;
+    margin-top: 2mm;
   }
 </style>
 
 <div class="cover">
+  <img class="ornament" src="data:image/svg+xml;utf8,
+  <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='20'>
+    <path d='M0 10 Q50 0 100 10 T200 10 T300 10 T400 10' stroke='black' fill='transparent' stroke-width='2'/>
+  </svg>">
+  
   <h1>管理規約</h1>
-  <h2>{{TITLE}}</h2>
+  <h2>{{MANSIONNAME}}</h2>
+  <p class="version">{{VERSION}}</p>
+
+  <img class="ornament" src="data:image/svg+xml;utf8,
+  <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='20'>
+    <path d='M0 10 Q50 20 100 10 T200 10 T300 10 T400 10' stroke='black' fill='transparent' stroke-width='2'/>
+  </svg>">
 </div>
