@@ -7,30 +7,36 @@
     position: relative;
   }
 
-  /* 疑似的な和柄背景（CSS で確実に出る） */
+  /* ★ WeasyPrint で確実に出る派手な背景（和柄風） */
   .cover::before {
     content: "";
     position: absolute;
     inset: 0;
-    background-image:
+    background:
       repeating-linear-gradient(
         45deg,
-        rgba(0,0,0,0.05) 0,
-        rgba(0,0,0,0.05) 2mm,
-        transparent 2mm,
-        transparent 4mm
+        rgba(0,0,0,0.06) 0,
+        rgba(0,0,0,0.06) 3mm,
+        transparent 3mm,
+        transparent 6mm
+      ),
+      repeating-linear-gradient(
+        -45deg,
+        rgba(0,0,0,0.06) 0,
+        rgba(0,0,0,0.06) 3mm,
+        transparent 3mm,
+        transparent 6mm
       );
-    opacity: 0.25;
+    opacity: 0.35;
     z-index: -1;
   }
 
-  /* 太い装飾ライン（SVG の単純 path） */
+  /* 太い装飾ライン（これは確実に出る） */
   .ornament {
     width: 90%;
     margin: 0 auto 15mm auto;
   }
 
-  /* メインタイトル */
   .cover h1 {
     font-size: 64pt;
     letter-spacing: 6pt;
@@ -39,7 +45,6 @@
     color: #000;
   }
 
-  /* マンション名 */
   .cover h2 {
     font-size: 34pt;
     margin: 0;
@@ -47,7 +52,6 @@
     color: #111;
   }
 
-  /* バージョン */
   .version {
     font-size: 20pt;
     color: #444;
@@ -58,7 +62,7 @@
 
 <div class="cover">
 
-  <!-- 上の太い装飾ライン -->
+  <!-- 上の太い波線 -->
   <img class="ornament" src="data:image/svg+xml;utf8,
   <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='30'>
     <path d='M0 15 Q50 0 100 15 T200 15 T300 15 T400 15'
@@ -66,10 +70,10 @@
   </svg>">
 
   <h1>管理規約</h1>
-  <h2>{{MANSIONNAME}}</h2>
+  <h2>{{MANSION_NAME}}</h2>
   <p class="version">{{VERSION}}</p>
 
-  <!-- 下の太い装飾ライン -->
+  <!-- 下の太い波線 -->
   <img class="ornament" src="data:image/svg+xml;utf8,
   <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='30'>
     <path d='M0 15 Q50 30 100 15 T200 15 T300 15 T400 15'

@@ -58,7 +58,7 @@ jobs:
         run: |
           cp cover.html cover_work.html
           source config.env
-          sed -i "s/{{MANSIONNAME}}/${MANSION_NAME}/g" cover_work.html
+          sed -i "s/{{MANSION_NAME}}/${MANSION_NAME}/g" cover_work.html
           sed -i "s/{{VERSION}}/${VERSION}/g" cover_work.html
     
     
