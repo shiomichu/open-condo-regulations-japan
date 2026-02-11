@@ -10,10 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        minpaku: [true, false]
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -81,13 +77,9 @@ jobs:
 
       - name: Convert to PDF (single input)
         run: |
+          source config.env
           cp style.css temp.css
-          if [ "${{ matrix.minpaku }}" = "true" ]; then
-            OUT="管理規約_民泊禁止版.pdf"
-          else
-            OUT="管理規約_民泊許可版.pdf"
-          fi
-          weasyprint temp.html "dist/$OUT"
+          weasyprint temp.html "dist/${MANSION_NAME}_管理規約_${VERSION}.pdf "
                      
       - name: Clean temporary files
         run: rm temp.html
@@ -95,7 +87,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: regulations-${{ matrix.minpaku }}
+          name: 管理規約
           path: dist/
 
       - name: Show workspace tree

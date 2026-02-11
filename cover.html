@@ -1,40 +1,79 @@
 <style>
-  .ornament {
-    width: 80%;
-    margin: 0 auto 20mm auto;
-  }
   .cover {
-    margin-top: 30mm;
+    margin-top: 25mm;
     text-align: center;
     page-break-after: always;
+    font-family: "Noto Sans JP", sans-serif;
   }
+
+  /* 上下の豪華な装飾ライン */
+  .ornament {
+    width: 90%;
+    margin: 0 auto 18mm auto;
+  }
+
+  /* メインタイトル */
   .cover h1 {
-    font-size: 52pt;
-    margin: 20mm 0;
+    font-size: 60pt;
+    letter-spacing: 4pt;
+    margin: 10mm 0 8mm 0;
+    font-weight: 700;
   }
+
+  /* マンション名 */
   .cover h2 {
-    font-size: 30pt;
-    margin-bottom: 5mm;
+    font-size: 32pt;
+    margin: 0;
+    font-weight: 500;
   }
+
+  /* バージョン（改訂版） */
   .version {
-    font-size: 14pt;
-    color: #555;
-    margin-top: 2mm;
+    font-size: 18pt;
+    color: #444;
+    margin-top: 4mm;
+    letter-spacing: 1pt;
+  }
+
+  /* 下部の装飾ライン */
+  .ornament-bottom {
+    width: 90%;
+    margin: 18mm auto 0 auto;
   }
 </style>
 
 <div class="cover">
+
+  <!-- 上の豪華装飾 -->
   <img class="ornament" src="data:image/svg+xml;utf8,
-  <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='20'>
-    <path d='M0 10 Q50 0 100 10 T200 10 T300 10 T400 10' stroke='black' fill='transparent' stroke-width='2'/>
+  <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='40'>
+    <defs>
+      <linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='0%'>
+        <stop offset='0%' style='stop-color:#000;stop-opacity:1'/>
+        <stop offset='50%' style='stop-color:#555;stop-opacity:1'/>
+        <stop offset='100%' style='stop-color:#000;stop-opacity:1'/>
+      </linearGradient>
+    </defs>
+    <path d='M0 20 Q50 0 100 20 T200 20 T300 20 T400 20' 
+          stroke='url(#grad)' fill='transparent' stroke-width='3'/>
   </svg>">
-  
+
   <h1>管理規約</h1>
   <h2>{{MANSIONNAME}}</h2>
   <p class="version">{{VERSION}}</p>
 
-  <img class="ornament" src="data:image/svg+xml;utf8,
-  <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='20'>
-    <path d='M0 10 Q50 20 100 10 T200 10 T300 10 T400 10' stroke='black' fill='transparent' stroke-width='2'/>
+  <!-- 下の豪華装飾 -->
+  <img class="ornament-bottom" src="data:image/svg+xml;utf8,
+  <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='40'>
+    <defs>
+      <linearGradient id='grad2' x1='0%' y1='0%' x2='100%' y2='0%'>
+        <stop offset='0%' style='stop-color:#000;stop-opacity:1'/>
+        <stop offset='50%' style='stop-color:#555;stop-opacity:1'/>
+        <stop offset='100%' style='stop-color:#000;stop-opacity:1'/>
+      </linearGradient>
+    </defs>
+    <path d='M0 20 Q50 40 100 20 T200 20 T300 20 T400 20' 
+          stroke='url(#grad2)' fill='transparent' stroke-width='3'/>
   </svg>">
+
 </div>
