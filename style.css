@@ -1,12 +1,14 @@
-  size: A4;
-  margin: 20mm;
 
-  @bottom-center {
-    content: counter(page) " / " counter(pages);
-    font-size: 10pt;
-    color: #666;
+  @page {
+    size: A4;
+    margin: 20mm;
+    @bottom-center {
+      content: counter(page) " / " counter(pages);
+      font-size: 10pt;
+      color: #666;
+    }
   }
-}
+
 
 p {
   orphans: 2;
@@ -22,9 +24,10 @@ p {
   page-break-after: always;
 }
 
+body {
   font-family: "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
   font-size: 12pt;
-    line-height: 1.5 ;
+  line-height: 1.5 ;
   color: #222;
 }
 

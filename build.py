@@ -44,12 +44,12 @@ append_md_with_pagebreak("01_標準管理規約/01_本文/管理規約.md")
 
 # 02_別表配下の2桁数字で始まるmd
 for path in sorted(glob.glob("01_標準管理規約/02_別表/[0-9][0-9]_*.md")):
-    output.append('<div style="page-break-before:always"></div>\n')
+    #output.append('<div style="page-break-before:always"></div>\n')
     append_md_with_pagebreak(path)
 
 # 03_細則配下の2桁数字で始まるmd
 for path in sorted(glob.glob("01_標準管理規約/03_細則/[0-9][0-9]_*.md")):
-    output.append('<div style="page-break-before:always"></div>\n')
+    #output.append('<div style="page-break-before:always"></div>\n')
     append_md_with_pagebreak(path)
 
 # 出力
