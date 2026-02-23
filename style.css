@@ -22,11 +22,19 @@ p {
   page-break-after: always;
 }
 
-body {
   font-family: "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
   font-size: 12pt;
-  line-height: 1.0 ;
+    line-height: 1.5 ;
   color: #222;
+}
+
+/* 表の枠線を表示 */
+table, th, td {
+  border: 1px solid #333;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 4px 8px;
 }
 /* 表紙ページのページ番号非表示 */
 @page :first {
