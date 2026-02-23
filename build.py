@@ -38,6 +38,9 @@ for line in lines:
 
     # 現在の状態：スタックに False があれば出力しない
     if False not in condition_stack:
+        # セクションタイトル（#で始まる行）の前にページ区切りを挿入
+        if re.match(r"^# ", line):
+            output.append('<div style="page-break-before:always"></div>\n')
         output.append(line)
 
 # 出力

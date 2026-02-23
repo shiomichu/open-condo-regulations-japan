@@ -1,4 +1,3 @@
-@page {
   size: A4;
   margin: 20mm;
 
@@ -28,4 +27,10 @@ body {
   font-size: 12pt;
   line-height: 1.0 ;
   color: #222;
+}
+/* 表紙ページのページ番号非表示 */
+@page :first {
+  @bottom-center {
+    content: none;
+  }
 }
