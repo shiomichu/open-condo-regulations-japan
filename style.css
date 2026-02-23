@@ -29,9 +29,12 @@ p {
 }
 
 /* 表の枠線を表示 */
+table {
+  border-collapse: collapse !important;
+  width: 100%;
+}
 table, th, td {
-  border: 1px solid #333;
-  border-collapse: collapse;
+  border: 1px solid #333 !important;
 }
 th, td {
   padding: 4px 8px;
