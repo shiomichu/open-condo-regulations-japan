@@ -73,7 +73,7 @@ jobs:
             --metadata date="${CREATED_AT}" \
             --template="$(pwd)/template.html" \
             --standalone \
-            dist/master.md \
+            dist/output.md \
             -o temp.html
 
       - name: Convert to PDF (single input)
