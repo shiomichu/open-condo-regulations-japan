@@ -13,7 +13,6 @@ with open(env_file, "r", encoding="utf-8") as f:
                 env[key] = value.strip('"')
             else:
                 env[key] = value.lower() in ("1", "true", "yes", "on")
-                print(key)
 
 import glob
 
