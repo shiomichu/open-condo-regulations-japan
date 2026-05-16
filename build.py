@@ -9,7 +9,10 @@ with open(env_file, "r", encoding="utf-8") as f:
     for line in f:
         if "=" in line:
             key, value = line.strip().split("=", 1)
-            env[key] = value.lower() in ("1", "true", "yes", "on")
+            if value.startswith('"') and value.endswith('"'):
+                env[key] = value.strip('"')
+            else:
+                env[key] = value.lower() in ("1", "true", "yes", "on")
 
 
 import glob
@@ -52,6 +55,14 @@ for path in sorted(glob.glob("01_標準管理規約/03_細則/[0-9][0-9]_*.md"))
     #output.append('<div style="page-break-before:always"></div>\n')
     append_md_with_pagebreak(path)
 
+# 変数置換フェーズ
+final_output = []
+for line in output:
+    for key, val in env.items():
+        if isinstance(val, str):
+            line = line.replace(f"{{{{{key}}}}}", val)
+    final_output.append(line)
+
 # 出力
 with open("dist/output.md", "w", encoding="utf-8") as f:
-    f.writelines(output)
+    f.writelines(final_output)
