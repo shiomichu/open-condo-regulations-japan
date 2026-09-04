@@ -1,37 +1,43 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""
-check_diff.py
-
-原本PDFと build.py の生成結果を比較する。
-
-Usage:
-
-python check_diff.py \
-  --pdf reference/単棟型管理規約20251017改正.pdf \
-  --md build/管理規約.md
-"""
-
 import argparse
 import difflib
 import re
+import sys
 from pathlib import Path
 
 from pypdf import PdfReader
 
+# ============================================================
+# Patterns
+# ============================================================
 
 ARTICLE_RE = re.compile(
     r"(第\s*[0-9０-９]+条(?:の\s*[0-9０-９]+)?)"
 )
 
+IF_RE = re.compile(
+    r"<!--\s*IF\s+([A-Z0-9_]+)\s*-->"
+)
+
+ENDIF_RE = re.compile(
+    r"<!--\s*ENDIF\s*-->"
+)
+
+# ============================================================
+# PDF
+# ============================================================
+
 
 def extract_pdf_text(pdf_path: Path) -> str:
+
     reader = PdfReader(str(pdf_path))
 
     pages = []
 
     for page in reader.pages:
+
         text = page.extract_text() or ""
 
         # ページ番号除去
@@ -46,9 +52,14 @@ def extract_pdf_text(pdf_path: Path) -> str:
     return "\n".join(pages)
 
 
+# ============================================================
+# Normalize
+# ============================================================
+
+
 def normalize(text: str) -> str:
 
-    # IFブロック除去
+    # IFコメント除去
     text = re.sub(
         r"<!--.*?-->",
         "",
@@ -61,13 +72,11 @@ def normalize(text: str) -> str:
         r"^#+\s*",
         "",
         text,
-        flags=re.MULTILINE
+        flags=re.MULTILINE,
     )
 
-    # 太字
     text = text.replace("**", "")
 
-    # 全角数字→半角
     trans = str.maketrans(
         "０１２３４５６７８９",
         "0123456789"
@@ -75,14 +84,17 @@ def normalize(text: str) -> str:
 
     text = text.translate(trans)
 
-    # 全角スペース
     text = text.replace("　", " ")
 
-    # 改行整理
     text = re.sub(r"\r\n", "\n", text)
     text = re.sub(r"\n{2,}", "\n", text)
 
     return text.strip()
+
+
+# ============================================================
+# Split Articles
+# ============================================================
 
 
 def split_articles(text: str):
@@ -95,15 +107,15 @@ def split_articles(text: str):
         ARTICLE_RE.finditer(text)
     )
 
-    for i, m in enumerate(matches):
+    for i, match in enumerate(matches):
 
         article = re.sub(
             r"\s+",
             "",
-            m.group(1)
+            match.group(1)
         )
 
-        start = m.start()
+        start = match.start()
 
         if i + 1 < len(matches):
             end = matches[i + 1].start()
@@ -117,7 +129,13 @@ def split_articles(text: str):
     return result
 
 
-def similarity(a: str, b: str) -> float:
+# ============================================================
+# Similarity
+# ============================================================
+
+
+def similarity(a, b):
+
     return difflib.SequenceMatcher(
         None,
         a,
@@ -125,7 +143,7 @@ def similarity(a: str, b: str) -> float:
     ).ratio()
 
 
-def make_diff(a: str, b: str) -> str:
+def make_diff(a, b):
 
     return "\n".join(
         difflib.unified_diff(
@@ -138,148 +156,51 @@ def make_diff(a: str, b: str) -> str:
     )
 
 
-def main():
+# ============================================================
+# config.env
+# ============================================================
 
-    parser = argparse.ArgumentParser()
 
-    parser.add_argument(
-        "--pdf",
-        required=True
-    )
+def load_env_flags(env_path: Path):
 
-    parser.add_argument(
-        "--md",
-        required=True
-    )
+    flags = {}
 
-    parser.add_argument(
-        "--report",
-        default="reports/diff_report.md"
-    )
+    if not env_path.exists():
+        return flags
 
-    args = parser.parse_args()
-
-    print("Loading PDF...")
-    pdf_text = extract_pdf_text(
-        Path(args.pdf)
-    )
-
-    print("Loading Markdown...")
-    md_text = Path(args.md).read_text(
+    for line in env_path.read_text(
         encoding="utf-8"
-    )
+    ).splitlines():
 
-    pdf_articles = split_articles(pdf_text)
-    md_articles = split_articles(md_text)
+        line = line.strip()
 
-    report = []
-    errors = 0
-    warnings = 0
-    matches = 0
-
-    all_articles = sorted(
-        set(pdf_articles.keys())
-        | set(md_articles.keys())
-    )
-
-    report.append("# Diff Report\n")
-
-    for article in all_articles:
-
-        pdf_body = pdf_articles.get(article)
-        md_body = md_articles.get(article)
-
-        if pdf_body is None:
-            errors += 1
-
-            report.append(
-                f"## {article}\n"
-                "ERROR: PDFに存在しません\n"
-            )
-
+        if not line:
             continue
 
-        if md_body is None:
-            errors += 1
-
-            report.append(
-                f"## {article}\n"
-                "ERROR: Markdownに存在しません\n"
-            )
-
+        if line.startswith("#"):
             continue
 
-        score = similarity(
-            pdf_body,
-            md_body
+        if "=" not in line:
+            continue
+
+        key, value = line.split(
+            "=",
+            1
         )
 
-        if score >= 0.995:
-            matches += 1
-            continue
+        flags[key.strip()] = value.strip()
 
-        if score >= 0.97:
-
-            warnings += 1
-
-            report.append(
-                f"## {article}\n\n"
-                f"WARNING ({score:.2%})\n\n"
-                "```diff\n"
-                f"{make_diff(pdf_body, md_body)[:5000]}\n"
-                "```\n"
-            )
-
-        else:
-
-            errors += 1
-
-            report.append(
-                f"## {article}\n\n"
-                f"ERROR ({score:.2%})\n\n"
-                "```diff\n"
-                f"{make_diff(pdf_body, md_body)[:5000]}\n"
-                "```\n"
-            )
-
-    summary = [
-        "# Summary",
-        "",
-        f"- Match: {matches}",
-        f"- Warning: {warnings}",
-        f"- Error: {errors}",
-        "",
-        "---",
-        ""
-    ]
-
-    output = "\n".join(
-        summary + report
-    )
-
-    report_path = Path(args.report)
-
-    report_path.parent.mkdir(
-        parents=True,
-        exist_ok=True
-    )
-
-    report_path.write_text(
-        output,
-        encoding="utf-8"
-    )
-
-    print()
-    print(f"Match:   {matches}")
-    print(f"Warning: {warnings}")
-    print(f"Error:   {errors}")
-    print()
-    print(f"Report: {report_path}")
-
-    # CI失敗判定
-    if errors > 0:
-        raise SystemExit(1)
+    return flags
 
 
-if __name__ == "__main__":
-    main()
+# ============================================================
+# IF validator
+# ============================================================
+
+
+def check_if_blocks(
+    markdown_text,
+    valid_flags
+):
+
+    warnings =
