@@ -1,0 +1,52 @@
+name: Regulation Check
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - r6-update
+      - r7-update
+
+  pull_request:
+
+  workflow_dispatch:
+
+jobs:
+
+  regulation-check:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pypdf markdown python-dotenv
+
+      - name: Build Regulation
+        run: |
+          python build.py
+
+      - name: Check PDF Consistency
+        run: |
+          python check_diff.py \
+            --pdf "01_標準管理規約/単棟型管理規約20251017改正.pdf" \
+            --md "01_標準管理規約/01_本文/管理規約.md" \
+            --env "config.env"
+
+      - name: Upload Diff Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: diff-report
+          path: reports/diff_report.md
